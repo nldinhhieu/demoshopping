@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Components\Recusive;
 
 class CategoryController extends Controller
 {
-    private $htmlSelect;
-    public function __construct()
+    private $category;
+
+    public function __construct(Category $category)
     {
-        $this->htmlSelect = '';
+        $this->category = $category;
     }
 
     /**
@@ -30,40 +32,13 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $data = Category::all();
-//        foreach ($data as $value) {
-//            if ($value['parent_id'] == 0) {
-//                echo "<option>" . $value['name']  . "</option>";
-//
-//                foreach ($data as $value2) {
-//                    if ($value2['parent_id'] == $value['id']) {
-//                        echo "<option>" . '--' . $value2['name']  . "</option>";
-//
-//                        foreach ($data as $value3) {
-//                            if ($value3['parent_id'] == $value2['id']) {
-//                                echo "<option>" . '---' . $value3['name'] . "</option>";
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-        $htmlOption = $this->catelogyRecusive('0');
+        $data = $this->category->all();
+        $recusive = new Recusive($data);
+        $htmlOption = $recusive->catelogyRecusive();
 
         return view('category.create', compact('htmlOption'));
     }
-    //hàm đệ quy danh mục
-    function catelogyRecusive($id ,$text= '')
-    {
-        $data = Category::all();
-        foreach ($data as $value) {
-            if ($value['parent_id'] == $id) {
-                $this->htmlSelect.= "<option>" . $text . $value['name'] . "</option>";
-                $this->catelogyRecusive($value['id'], $text.'-');
-            }
-        }
-        return $this->htmlSelect;
-    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -72,7 +47,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->category->create([
+           'name' => $request->name,
+           'parent_id' => $request->parent_id,
+            'slug' => str_slug($request->name)
+        ]);
+        return redirect()->route('categories.index');
+
     }
 
     /**
