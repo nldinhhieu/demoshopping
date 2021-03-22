@@ -22,7 +22,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('category.index');
+        $categories = $this->category->latest()->paginate(5);
+        return view('category.index', compact('categories'));
     }
 
     /**
