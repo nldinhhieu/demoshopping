@@ -33,10 +33,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $data = $this->category->all();
-        $recusive = new Recusive($data);
-        $htmlOption = $recusive->catelogyRecusive();
-
+        $htmlOption = $this->getCategory($parentId ='');
         return view('category.create', compact('htmlOption'));
     }
 
@@ -67,6 +64,14 @@ class CategoryController extends Controller
     {
         //
     }
+    //hàm dùng chung recusive
+    public function getCategory($parentId)
+    {
+        $data = $this->category->all();
+        $recusive = new Recusive($data);
+        $htmlOption = $recusive->catelogyRecusive($parentId);
+        return $htmlOption;
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -76,7 +81,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = $this->category->find($id);
+        $htmlOption = $this->getCategory($category->parent_id);
+        return view('category.edit', compact('category', 'htmlOption'));
     }
 
     /**
@@ -88,7 +95,12 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->category->find($id)->update([
+            'name' => $request->name,
+            'parent_id' => $request->parent_id,
+            'slug' => str_slug($request->name)
+        ]);
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -97,7 +109,7 @@ class CategoryController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
         //
     }

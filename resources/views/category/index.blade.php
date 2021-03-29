@@ -6,11 +6,7 @@
 
 @section('content')
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-    @include('partials.content-header', ['name' => 'Category', 'key' => 'List'])
-    <!-- /.content-header -->
-
-        <!-- Main content -->
+        @include('partials.content-header', ['name' => 'Category', 'key' => 'List'])
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -33,8 +29,10 @@
                                     <th scope="row">{{$category->id}}</th>
                                     <td>{{$category->name}}</td>
                                     <td>
-                                        <a href="" class="btn btn-default">Edit</a>
-                                        <a href="" class="btn btn-danger">Delete</a>
+                                        <a href="{{route('categories.edit', ['id' =>$category->id])}}"
+                                           class="btn btn-default">Edit</a>
+                                        <a href="{{route('categories.delete', ['id' =>$category->id])}}"
+                                           class="btn btn-danger">Delete</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -45,10 +43,8 @@
                         {{ $categories->links() }}
                     </div>
                 </div>
-                <!-- /.row -->
-            </div><!-- /.container-fluid -->
+            </div>
         </div>
-        <!-- /.content -->
     </div>
 @endsection
 

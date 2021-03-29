@@ -6,18 +6,19 @@
 
 @section('content')
     <div class="content-wrapper">
-        @include('partials.content-header',['name' => 'Category', 'key' => 'Add'])
+        @include('partials.content-header',['name' => 'Category', 'key' => 'Edit'])
 
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
-                        <form action="{{route('categories.store')}}" method="post">
+                        <form action="{{route('categories.update', ['id' => $category->id])}}" method="post">
                             @csrf
                             <div class="form-group">
                                 <label>Tên danh mục</label>
                                 <input type="text" class="form-control"
                                        placeholder="Nhập tên danh mục"
+                                       value="{{ $category->name }}"
                                        name="name"
                                 >
                             </div>

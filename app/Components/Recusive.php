@@ -12,13 +12,17 @@ class Recusive {
         $this->data = $data;
     }
         //hàm đệ quy danh mục
-    public function catelogyRecusive($id = 0, $text= '')
+    public function catelogyRecusive($parentId, $id = 0, $text= '')
     {
 //        $data = Category::all();
         foreach ($this->data as $value) {
             if ($value['parent_id'] == $id) {
-                $this->htmlSelect.= "<option value=' " . $value['id'] . " '>" . $text . $value['name'] . "</option>";
-                $this->catelogyRecusive($value['id'], $text.'-');
+                if (!empty($parentId) && $parentId == $value['id']) {
+                    $this->htmlSelect .= "<option selected value=' " . $value['id'] . " '>" . $text . $value['name'] . "</option>";
+                }else{
+                    $this->htmlSelect .= "<option value=' " . $value['id'] . " '>" . $text . $value['name'] . "</option>";
+                }
+                $this->catelogyRecusive($parentId, $value['id'], $text.'-');
             }
         }
         return $this->htmlSelect;
