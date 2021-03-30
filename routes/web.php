@@ -19,6 +19,7 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('home');
 });
+//categories
 Route::prefix('categories')->group(function () {
     Route::get('/', [
         'as' => 'categories.index',
@@ -36,11 +37,38 @@ Route::prefix('categories')->group(function () {
         'as' => 'categories.edit',
         'uses' => 'CategoryController@edit'
     ]);
-    Route::post ('/update/{id}', [
+    Route::post('/update/{id}', [
         'as' => 'categories.update',
         'uses' => 'CategoryController@update'
     ]);
-    Route::post('/delete/{id}', [
+    Route::get('/delete/{id}', [
+        'as' => 'categories.delete',
+        'uses' => 'CategoryController@delete'
+    ]);
+});
+//menus
+Route::prefix('menus')->group(function () {
+    Route::get('/', [
+        'as' => 'menus.index',
+        'uses' => 'MenuController@index'
+    ]);
+    Route::get('/create', [
+        'as' => 'categories.create',
+        'uses' => 'CategoryController@create'
+    ]);
+    Route::post('/store', [
+        'as' => 'categories.store',
+        'uses' => 'CategoryController@store'
+    ]);
+    Route::get('/edit/{id}', [
+        'as' => 'categories.edit',
+        'uses' => 'CategoryController@edit'
+    ]);
+    Route::post('/update/{id}', [
+        'as' => 'categories.update',
+        'uses' => 'CategoryController@update'
+    ]);
+    Route::get('/delete/{id}', [
         'as' => 'categories.delete',
         'uses' => 'CategoryController@delete'
     ]);
