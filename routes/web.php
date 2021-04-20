@@ -53,12 +53,12 @@ Route::prefix('menus')->group(function () {
         'uses' => 'MenuController@index'
     ]);
     Route::get('/create', [
-        'as' => 'categories.create',
-        'uses' => 'CategoryController@create'
+        'as' => 'menus.create',
+        'uses' => 'MenuController@create'
     ]);
     Route::post('/store', [
-        'as' => 'categories.store',
-        'uses' => 'CategoryController@store'
+        'as' => 'menus.store',
+        'uses' => 'MenuController@store'
     ]);
     Route::get('/edit/{id}', [
         'as' => 'categories.edit',
