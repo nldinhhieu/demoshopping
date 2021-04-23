@@ -17,14 +17,14 @@
                             <div class="form-group">
                                 <label>Tên danh mục</label>
                                 <input type="text" class="form-control"
-                                       placeholder="Nhập tên danh mục"
+                                       placeholder="Nhập tên menu"
                                        name="name"
                                 >
                             </div>
                             <div class="form-group">
                                 <label>Danh mục cha</label>
                                 <select class="custom-select" name="parent_id">
-                                    <option value="0">--Chọn danh mục cha--</option>
+                                    <option value="0">--Chọn menu cha--</option>
                                      {!!$optionSelect!!}
                                 </select>
                             </div>

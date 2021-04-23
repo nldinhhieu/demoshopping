@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Components\MenuRecusive;
+use App\Models\Menu;
 class MenuController extends Controller
 {
     private $menuRecusive; 
-    public function __construct(MenuRecusive $menuRecusive)
+    private $menu;
+    public function __construct(MenuRecusive $menuRecusive, Menu $menu)
     {
         $this->menuRecusive = $menuRecusive;
+        $this->menu = $menu;
     }
     /**
      * Display a listing of the resource.
@@ -18,7 +21,8 @@ class MenuController extends Controller
      */
     public function index()
     {
-        return view('menus.index');
+        $menus = $this->menu->paginate(10);
+        return view('menus.index', compact('menus'));
     }
 
     /**
@@ -40,7 +44,11 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->menu->create([
+            'name' => $request->name,
+            'parent_id' => $request->parent_id,
+        ]);
+        return redirect()->route('menus.index');
     }
 
     /**
